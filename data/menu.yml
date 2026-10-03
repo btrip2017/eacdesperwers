@@ -1,0 +1,44 @@
+- titel: Nieuws
+  url: /nieuws/
+- titel: Agenda
+  url: /agenda/
+- titel: Algemeen
+  url: /algemeen/
+  sub:
+    - { titel: Bestuur & Commissies, url: /algemeen/bestuur-commissies/ }
+    - { titel: Statuten en Reglementen, url: /algemeen/statuten-en-reglementen/ }
+    - { titel: Vertrouwenscontactpersonen, url: /algemeen/vertrouwenscontactpersonen/ }
+    - { titel: Clubkleding, url: /algemeen/clubkleding/ }
+    - { titel: Sperwer Hoody, url: /algemeen/clubkleding/sperwer-hoody/ }
+    - { titel: Jubileumsokken, url: /algemeen/clubkleding/sokken/ }
+    - { titel: Marktplaats clubkleding, url: /algemeen/clubkleding/marktplaats/ }
+    - { titel: Sperwerkoerier, url: /algemeen/sperwerkoerier/ }
+    - { titel: Downloads, url: /algemeen/downloads/ }
+- titel: Lidmaatschap
+  url: /lidmaatschap/
+  sub:
+    - { titel: Proefles, url: /lidmaatschap/proefles/ }
+    - { titel: Contributie, url: /lidmaatschap/contributie/ }
+    - { titel: Lid worden, url: /lidmaatschap/lid-worden/ }
+    - { titel: Opzeggen, url: /lidmaatschap/opzeggen/ }
+- titel: Baanatletiek
+  url: /baanatletiek/
+  sub:
+    - { titel: Trainingstijden, url: /baanatletiek/trainingstijden/ }
+    - { titel: Leeftijdscategorieën, url: /baanatletiek/leeftijdscategorieen/ }
+    - { titel: VB-groep, url: /baanatletiek/vb-groep/ }
+    - { titel: Avondwedstrijden, url: /baanatletiek/avondwedstrijden/ }
+- titel: Loopsport
+  url: /loopsport/
+  sub:
+    - { titel: Trainingstijden, url: /loopsport/trainingstijden/ }
+    - { titel: Jaarprogramma (PDF), url: /assets/docs/2026-jaarprogramma-sperwers-2026.pdf }
+    - { titel: 4 Mijl Clinic, url: /loopsport/4-mijl-clinic/ }
+    - { titel: Hondsrugcross, url: "https://hondsrugcross.nl" }
+    - { titel: Rietplasrun, url: "https://rietplasrun.nl" }
+    - { titel: Lenteloop, url: "https://lenteloopemmen.nl" }
+    - { titel: Ekiden Emmen, url: "https://ekidenemmen.nl" }
+- titel: Clubrecords
+  url: /clubrecords/
+- titel: Contact
+  url: /contact/

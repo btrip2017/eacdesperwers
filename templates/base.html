@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if title and title != site.naam %}{{ title }} · {% endif %}{{ site.naam }}</title>
+<meta name="description" content="{{ description or site.ondertitel }}">
+<link rel="icon" href="/assets/img/cropped-eacdesperwerslogo.webp">
+<link rel="stylesheet" href="/assets/css/site.css?v={{ build_id }}">
+<link rel="canonical" href="{{ site.url }}{{ url }}">
+</head>
+<body>
+<a class="skip" href="#inhoud">Naar inhoud</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/" aria-label="{{ site.naam }} – home"><img src="/assets/img/logo-wit.png" alt="{{ site.naam }}" width="160" height="65"></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="hoofdmenu"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span></button>
+    <nav id="hoofdmenu" class="nav" aria-label="Hoofdmenu">
+      <ul>
+      {% for item in menu %}
+        <li class="{% if item.sub %}has-sub{% endif %}{% if url.startswith(item.url) and item.url != '/' %} active{% endif %}">
+          <a href="{{ item.url }}">{{ item.titel }}</a>
+          {% if item.sub %}
+          <button class="sub-toggle" aria-expanded="false" aria-label="Submenu {{ item.titel }}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          <ul class="sub">
+            {% for s in item.sub %}<li><a href="{{ s.url }}"{% if s.url.startswith('http') %} target="_blank" rel="noopener"{% endif %}>{{ s.titel }}</a></li>{% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+      <a class="btn btn-accent nav-cta" href="/lidmaatschap/proefles/">Gratis proefles</a>
+    </nav>
+  </div>
+</header>
+<main id="inhoud">
+{% block main %}{% endblock %}
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h2>Waar vind je ons?</h2>
+      <p>{{ site.adres.straat }}<br>{{ site.adres.postcode_plaats }}</p>
+      <p><a href="/contact/">Routebeschrijving en contact</a></p>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      <p><a href="{{ site.instagram }}" target="_blank" rel="noopener">Volg ons op Instagram</a></p>
+    </div>
+    <div>
+      <h2>Snel naar</h2>
+      <ul class="plain">
+        <li><a href="/agenda/">Agenda</a></li>
+        <li><a href="/baanatletiek/trainingstijden/">Trainingstijden baan</a></li>
+        <li><a href="/loopsport/trainingstijden/">Trainingstijden loopgroep</a></li>
+        <li><a href="/lidmaatschap/lid-worden/">Lid worden</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="sponsors">
+    <div class="wrap">
+      <h2>Onze sponsors</h2>
+      <ul>
+      {% for s in sponsors %}
+        <li>{% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener">{% endif %}<img src="{{ s.logo }}" alt="{{ s.naam }}" loading="lazy">{% if s.url %}</a>{% endif %}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <p class="wrap copy">© {{ year }} {{ site.naam }}, Emmen</p>
+</footer>
+<script src="/assets/js/site.js?v={{ build_id }}" defer></script>
+</body>
+</html>

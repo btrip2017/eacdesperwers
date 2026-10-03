@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="page-hero"><div class="wrap"><h1>Nieuws</h1></div></section>
+<div class="wrap">
+  <ul class="news-grid">
+  {% for n in posts %}
+    <li class="card"><a href="{{ n.url }}">
+      <div class="card-img">{% if n.afbeelding %}<img src="{{ n.afbeelding }}" alt="" loading="lazy">{% endif %}</div>
+      <div class="card-body"><p class="meta">{{ n.date_long }}</p><h2>{{ n.title }}</h2><p>{{ n.samenvatting }}</p></div>
+    </a></li>
+  {% endfor %}
+  </ul>
+</div>
+{% endblock %}

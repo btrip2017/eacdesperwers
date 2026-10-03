@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="page-hero"{% if hero %} style="--hero:url('{{ hero }}')"{% endif %}>
+  <div class="wrap">
+    {% if crumbs %}<nav class="crumbs" aria-label="Kruimelpad"><a href="/">Home</a>{% for c in crumbs %} <span aria-hidden="true">›</span> <a href="{{ c.url }}">{{ c.titel }}</a>{% endfor %}</nav>{% endif %}
+    <h1>{{ title }}</h1>
+  </div>
+</section>
+<article class="wrap prose">
+{{ content }}
+</article>
+{% endblock %}

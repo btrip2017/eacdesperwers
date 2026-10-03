@@ -1,0 +1,12 @@
+naam: EAC De Sperwers
+ondertitel: Dé bruisende atletiekvereniging uit Emmen!
+url: https://eacdesperwers.nl
+adres:
+  straat: Ullevi 1
+  postcode_plaats: 7825 SC Emmen
+email: info@eacdesperwers.nl
+instagram: https://www.instagram.com/eacdesperwers/
+facebook_marktplaats: https://www.facebook.com/groups/1474995883900070/
+# Adres waar formulieren naartoe gestuurd worden (bijv. van Web3Forms of Formspree).
+# Leeg = formulieren openen een e-mail aan het juiste adres.
+formulier_endpoint: ""

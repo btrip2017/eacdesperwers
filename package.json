@@ -1,0 +1,15 @@
+{
+  "name": "eacdesperwers",
+  "private": true,
+  "description": "Website van EAC De Sperwers, Emmen",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve"
+  },
+  "engines": { "node": ">=20" },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@fontsource/montserrat": "^5.2.5",
+    "@fontsource/source-sans-3": "^5.2.5"
+  }
+}

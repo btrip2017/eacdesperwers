@@ -1,0 +1,65 @@
+{# Formulieren. Verstuurd naar site.formulier_endpoint; is dat leeg, dan opent de bezoeker een e-mail. #}
+{% macro field(name, label, type='text', required=true, options=None, hint=None) -%}
+<div class="field{% if type in ('radio','checkbox') %} field-group{% endif %}">
+{% if type == 'radio' %}
+  <fieldset><legend>{{ label }}{% if required %} <span class="req">*</span>{% endif %}</legend>
+  {% for o in options %}<label class="choice"><input type="radio" name="{{ name }}" value="{{ o }}"{% if required and loop.first %} required{% endif %}> {{ o }}</label>{% endfor %}
+  </fieldset>
+{% elif type == 'checkbox' %}
+  <label class="choice"><input type="checkbox" name="{{ name }}" value="ja"{% if required %} required{% endif %}> {{ label }}{% if required %} <span class="req">*</span>{% endif %}</label>
+{% elif type == 'select' %}
+  <label for="f-{{ name }}">{{ label }}{% if required %} <span class="req">*</span>{% endif %}</label>
+  <select id="f-{{ name }}" name="{{ name }}"{% if required %} required{% endif %}><option value="">Kies…</option>{% for o in options %}<option>{{ o }}</option>{% endfor %}</select>
+{% elif type == 'textarea' %}
+  <label for="f-{{ name }}">{{ label }}{% if required %} <span class="req">*</span>{% endif %}</label>
+  <textarea id="f-{{ name }}" name="{{ name }}" rows="5"{% if required %} required{% endif %}></textarea>
+{% else %}
+  <label for="f-{{ name }}">{{ label }}{% if required %} <span class="req">*</span>{% endif %}</label>
+  <input id="f-{{ name }}" name="{{ name }}" type="{{ type }}"{% if required %} required{% endif %}{% if type == 'email' %} autocomplete="email"{% endif %}>
+{% endif %}
+{% if hint %}<p class="hint">{{ hint }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro form(kind, site) -%}
+{% set to = {'proefles': 'info@eacdesperwers.nl', 'contact': 'info@eacdesperwers.nl', 'lid-worden': 'ledenadministratie@eacdesperwers.nl', 'opzeggen': 'ledenadministratie@eacdesperwers.nl'}[kind] %}
+{% set subject = {'proefles': 'Aanmelding proeftraining', 'contact': 'Vraag via de website', 'lid-worden': 'Inschrijving nieuw lid', 'opzeggen': 'Opzegging lidmaatschap'}[kind] %}
+<form class="club-form" method="post" action="{{ site.formulier_endpoint or ('mailto:' ~ to) }}" data-mailto="{{ to }}" data-subject="{{ subject }}"{% if not site.formulier_endpoint %} data-fallback="mailto"{% endif %}>
+  <input type="hidden" name="onderwerp" value="{{ subject }}">
+{% if kind == 'proefles' %}
+  {{ field('interesse', 'Ik heb interesse in een proeftraining voor', 'radio', options=['Jeugd (t/m 8 jaar)','Jeugd (t/m 11 jaar)','Jeugd (vanaf 12 jaar)','Baanatletiek (senioren/masters)','Baanatletiek (vb-groep)','Loopgroep']) }}
+  {{ field('naam', 'Naam') }}
+  {{ field('email', 'E-mailadres', 'email') }}
+  {{ field('telefoon', 'Telefoonnummer', 'tel', required=false) }}
+  {{ field('geboortedatum', 'Geboortedatum', 'date') }}
+  {{ field('vraag', 'Vraag of opmerking', 'textarea', required=false) }}
+{% elif kind == 'contact' %}
+  {{ field('naam', 'Naam') }}
+  {{ field('email', 'E-mailadres', 'email') }}
+  {{ field('vraag', 'Vraag of opmerking', 'textarea') }}
+{% elif kind == 'opzeggen' %}
+  {{ field('voornaam', 'Voornaam') }}
+  {{ field('voorletters', 'Voorletters') }}
+  {{ field('achternaam', 'Achternaam') }}
+  {{ field('email', 'E-mailadres', 'email') }}
+  {{ field('geboortedatum', 'Geboortedatum', 'date') }}
+  {{ field('opzegdatum', 'Opzegdatum', 'date') }}
+  {{ field('opmerkingen', 'Opmerkingen (bijv. opzegreden)', 'textarea', required=false) }}
+{% elif kind == 'lid-worden' %}
+  {{ field('soort', 'Ik wil mij graag aanmelden als', 'radio', options=['Jeugdlid','Senior/Master','Recreant','VB-atleet']) }}
+  <div class="field-row">{{ field('voornaam', 'Voornaam') }}{{ field('voorletters', 'Voorletters') }}</div>
+  {{ field('achternaam', 'Achternaam') }}
+  {{ field('adres', 'Straat + huisnummer') }}
+  <div class="field-row">{{ field('postcode', 'Postcode') }}{{ field('woonplaats', 'Woonplaats') }}</div>
+  <div class="field-row">{{ field('telefoon', 'Telefoonnummer', 'tel') }}{{ field('email', 'E-mailadres', 'email') }}</div>
+  <div class="field-row">{{ field('geslacht', 'Geslacht', 'select', options=['Man','Vrouw']) }}{{ field('geboortedatum', 'Geboortedatum', 'date') }}</div>
+  {{ field('extra_ouders', 'Evt. extra gegevens ouders jeugdlid (e-mailadres en telefoonnummer)', 'textarea', required=false) }}
+  {{ field('machtiging', 'Hierbij machtig ik EAC de Sperwers om het verschuldigde lidmaatschapsgeld automatisch van onderstaand rekeningnummer af te schrijven. De contributie wordt per kwartaal afgeschreven. Bij inschrijving wordt eenmalig € 6,80 inschrijfgeld in rekening gebracht. Bent u het niet eens met de afschrijving? Dan kunt u het afgeschreven bedrag laten terugboeken. Neem hiervoor binnen 8 weken na afschrijving contact op met uw bank. Let op! Na opzegging is nog contributie over het eerstvolgende kwartaal verschuldigd.', 'checkbox') }}
+  <div class="field-row">{{ field('iban', 'Bankrekeningnummer (IBAN)') }}{{ field('tnv', 'Ten name van') }}</div>
+  {{ field('vrijwilliger', 'Vrijwilligerswerk', 'select', options=['Kantinehulp','Hulp bij (baan)wedstrijden','Jureren bij wedstrijden','Klus-/onderhoudsploeg','Communicatie/media','Werving sponsoren','Bestuur/commissie','Anders, neem contact met mij op']) }}
+{% endif %}
+  <p class="hint"><span class="req">*</span> verplicht veld</p>
+  <button class="btn btn-accent" type="submit">Versturen</button>
+  <p class="form-status" role="status" aria-live="polite"></p>
+</form>
+{%- endmacro %}

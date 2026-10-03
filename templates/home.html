@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="hero">
+  <picture>
+    <source media="(max-width: 700px)" srcset="/assets/img/legs.webp">
+    <img src="/assets/img/dsc-32071.webp" alt="" fetchpriority="high">
+  </picture>
+  <div class="wrap hero-text">
+    <h1>Welkom bij De Sperwers</h1>
+    <p>{{ site.ondertitel }}</p>
+    <div class="hero-cta">
+      <a class="btn btn-accent" href="/lidmaatschap/proefles/">Gratis proefles</a>
+      <a class="btn btn-light" href="/lidmaatschap/lid-worden/">Lid worden</a>
+    </div>
+  </div>
+</section>
+
+{% if highlights %}
+<section class="wrap section" aria-labelledby="h-uitgelicht">
+  <div class="section-head">
+    <h2 id="h-uitgelicht">Agenda &amp; nieuws</h2>
+    <div class="carousel-nav">
+      <button class="car-btn" data-dir="-1" aria-label="Vorige"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
+      <button class="car-btn" data-dir="1" aria-label="Volgende"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
+    </div>
+  </div>
+  <ul class="carousel" tabindex="0" aria-label="Uitgelichte evenementen en nieuws">
+  {% for h in highlights %}
+    <li class="card{% if h.kind == 'agenda' %} is-event{% endif %}"{% if h.kind == 'agenda' %} data-date="{{ h.date_iso }}"{% endif %}>
+      <a href="{{ h.url }}"{% if h.url.startswith('http') %} target="_blank" rel="noopener"{% endif %}>
+        <div class="card-img">{% if h.afbeelding %}<img src="{{ h.afbeelding }}" alt="" loading="lazy">{% endif %}
+          {% if h.kind == 'agenda' %}<span class="date-badge"><b>{{ h.day }}</b>{{ h.month_short }}</span>{% else %}<span class="tag">Nieuws</span>{% endif %}
+        </div>
+        <div class="card-body">
+          <h3>{{ h.title }}</h3>
+          {% if h.kind == 'agenda' %}<p class="meta">{{ h.date_long }}{% if h.tijd %} · {{ h.tijd }}{% endif %}<br>{{ h.locatie }}</p>
+          {% else %}<p class="meta">{{ h.date_long }}</p><p>{{ h.samenvatting }}</p>{% endif %}
+        </div>
+      </a>
+    </li>
+  {% endfor %}
+  </ul>
+  <p class="more"><a href="/agenda/">Hele agenda</a> · <a href="/nieuws/">Alle nieuws</a></p>
+</section>
+{% endif %}
+
+<section class="band">
+  <div class="wrap band-inner">
+    <h2>Prestatiegericht of recreatief sporten – bij ons kan het allemaal!</h2>
+    <a class="btn btn-accent" href="/lidmaatschap/lid-worden/">Meld je aan</a>
+  </div>
+</section>
+
+<section class="wrap section tiles">
+  <article class="tile">
+    <img src="/assets/img/dsc-33461.webp" alt="Jeugdleden op de atletiekbaan" loading="lazy">
+    <div><h2>Jeugd</h2>
+    <p>Kom ontdekken hoe leuk en veelzijdig atletiek is! Bij ons krijgen kinderen de kans om te leren, te spelen en te groeien in een veilige en stimulerende omgeving. Onze enthousiaste trainers begeleiden hen bij sprinten, springen en werpen, met de nadruk op zelfvertrouwen en plezier.</p>
+    <a href="/baanatletiek/trainingstijden/">Trainingstijden jeugd</a></div>
+  </article>
+  <article class="tile">
+    <img src="/assets/img/benen.webp" alt="Atleten op de baan" loading="lazy">
+    <div><h2>Baanatletiek</h2>
+    <p>De baanatletiek vormt het hart van onze vereniging. Sprint, middellange afstand, verspringen of speerwerpen: gekwalificeerde trainers begeleiden je op de moderne atletiekbaan in Emmen, voor alle leeftijden en niveaus.</p>
+    <a href="/baanatletiek/">Meer over baanatletiek</a></div>
+  </article>
+  <article class="tile">
+    <img src="/assets/img/dsc-3158.webp" alt="Lopers van de loopgroep" loading="lazy">
+    <div><h2>Loopsport</h2>
+    <p>Trainen voor een marathon, een 5 kilometer of gewoon ontspannen hardlopen in groepsverband? Onze loopgroepen zijn geschikt voor alle niveaus en worden begeleid door enthousiaste trainers.</p>
+    <a href="/loopsport/">Meer over loopsport</a></div>
+  </article>
+</section>
+{% endblock %}

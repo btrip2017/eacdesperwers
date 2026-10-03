@@ -1,0 +1,99 @@
+# Beheeromgeving (Sveltia CMS) — te openen via https://eacdesperwers.nl/admin/
+backend:
+  name: github
+  repo: btrip2017/eacdesperwers
+  branch: main
+  # Adres van de inlog-helper op Cloudflare Workers (zie README, stap 3)
+  base_url: https://sperwers-cms-auth.VUL-IN.workers.dev
+  commit_messages:
+    create: "Nieuw: {{collection}} “{{slug}}”"
+    update: "Bijgewerkt: {{collection}} “{{slug}}”"
+    delete: "Verwijderd: {{collection}} “{{slug}}”"
+
+locale: nl
+site_url: https://eacdesperwers.nl
+media_folder: src/assets/img/uploads
+public_folder: /assets/img/uploads
+
+collections:
+  - name: agenda
+    label: Agenda
+    label_singular: Activiteit
+    description: Wedstrijden en activiteiten. Verlopen activiteiten verdwijnen vanzelf van de homepage.
+    folder: content/agenda
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [date, title]
+    summary: "{{date | date('D MMMM YYYY')}} — {{title}}"
+    fields:
+      - { name: title, label: Titel, widget: string }
+      - { name: date, label: Datum, widget: datetime, time_format: false, date_format: "D MMMM YYYY", format: "YYYY-MM-DD" }
+      - { name: tijd, label: Tijd, widget: string, required: false, hint: "Bijv. 10:00 uur of 18:15 - 21:15 uur" }
+      - { name: locatie, label: Locatie, widget: string, required: false }
+      - { name: afbeelding, label: Foto, widget: image, required: false }
+      - { name: inschrijven, label: Link inschrijven, widget: string, required: false }
+      - { name: informatie, label: Link meer informatie, widget: string, required: false }
+      - { name: uitgelicht, label: Tonen in de carrousel op de homepage, widget: boolean, default: true }
+      - { name: body, label: Extra informatie, widget: markdown, required: false }
+
+  - name: nieuws
+    label: Nieuws
+    label_singular: Nieuwsbericht
+    folder: content/nieuws
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: [date, title]
+    summary: "{{date | date('D MMMM YYYY')}} — {{title}}"
+    fields:
+      - { name: title, label: Titel, widget: string }
+      - { name: date, label: Datum, widget: datetime, time_format: false, date_format: "D MMMM YYYY", format: "YYYY-MM-DD" }
+      - { name: afbeelding, label: Foto (voor de nieuwskaart), widget: image, required: false }
+      - { name: samenvatting, label: Korte samenvatting, widget: text, required: false, hint: "Leeg laten = eerste regels van het bericht" }
+      - { name: body, label: Bericht, widget: markdown }
+
+  - name: paginas
+    label: Pagina's
+    label_singular: Pagina
+    description: Vaste pagina's van de site. Laat de regels met [[ ]] staan; daar komen formulieren en overzichten.
+    folder: content/pages
+    create: false
+    delete: false
+    summary: "{{title}} ({{permalink}})"
+    fields:
+      - { name: title, label: Titel, widget: string }
+      - { name: permalink, label: Adres, widget: hidden }
+      - { name: pdf, label: PDF, widget: file, required: false }
+      - { name: body, label: Inhoud, widget: markdown }
+
+  - name: instellingen
+    label: Instellingen
+    files:
+      - name: sponsors
+        label: Sponsors
+        file: data/sponsors.yml
+        fields:
+          - name: sponsors
+            label: Sponsors
+            widget: list
+            root: true
+            fields:
+              - { name: naam, label: Naam, widget: string }
+              - { name: logo, label: Logo, widget: image }
+              - { name: url, label: Website, widget: string, required: false }
+      - name: site
+        label: Algemene gegevens
+        file: data/site.yml
+        fields:
+          - { name: naam, label: Naam vereniging, widget: string }
+          - { name: ondertitel, label: Ondertitel homepage, widget: string }
+          - { name: url, label: Website-adres, widget: string }
+          - name: adres
+            label: Adres
+            widget: object
+            fields:
+              - { name: straat, label: Straat, widget: string }
+              - { name: postcode_plaats, label: Postcode en plaats, widget: string }
+          - { name: email, label: Algemeen e-mailadres, widget: string }
+          - { name: instagram, label: Instagram, widget: string }
+          - { name: facebook_marktplaats, label: Facebook marktplaats, widget: string }
+          - { name: formulier_endpoint, label: Formulier-adres, widget: string, required: false, hint: "Leeg = formulieren openen een e-mail" }

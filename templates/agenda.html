@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="page-hero"><div class="wrap"><h1>Agenda</h1></div></section>
+<div class="wrap prose-wide">
+  <ul class="agenda" id="agenda-komend">
+  {% for e in upcoming %}
+    <li class="agenda-item" data-date="{{ e.date_iso }}">
+      <div class="agenda-date"><b>{{ e.day }}</b>{{ e.month_short }}<small>{{ e.year }}</small></div>
+      {% if e.afbeelding %}<img src="{{ e.afbeelding }}" alt="" loading="lazy">{% endif %}
+      <div class="agenda-body">
+        <h2>{{ e.title }}</h2>
+        <p class="meta">{{ e.date_long }}{% if e.tijd %} · {{ e.tijd }}{% endif %}{% if e.locatie %} · {{ e.locatie }}{% endif %}</p>
+        {% if e.content %}<div class="agenda-text">{{ e.content }}</div>{% endif %}
+        <p class="agenda-links">
+          {% if e.inschrijven %}<a class="btn btn-accent btn-sm" href="{{ e.inschrijven }}" target="_blank" rel="noopener">Inschrijven</a>{% endif %}
+          {% if e.informatie %}<a class="btn btn-outline btn-sm" href="{{ e.informatie }}"{% if e.informatie.startswith('http') %} target="_blank" rel="noopener"{% endif %}>Informatie</a>{% endif %}
+        </p>
+      </div>
+    </li>
+  {% else %}
+    <li class="empty">Er staan op dit moment geen activiteiten in de agenda.</li>
+  {% endfor %}
+  </ul>
+  {% if past %}
+  <details class="past">
+    <summary>Afgelopen activiteiten</summary>
+    <ul class="agenda is-past">
+    {% for e in past %}
+      <li class="agenda-item"><div class="agenda-date"><b>{{ e.day }}</b>{{ e.month_short }}<small>{{ e.year }}</small></div><div class="agenda-body"><h2>{{ e.title }}</h2><p class="meta">{{ e.locatie }}</p></div></li>
+    {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+</div>
+{% endblock %}

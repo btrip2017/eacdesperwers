@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="page-hero"><div class="wrap">
+  <nav class="crumbs" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">›</span> <a href="/nieuws/">Nieuws</a></nav>
+  <h1>{{ title }}</h1><p class="meta">{{ date_long }}</p>
+</div></section>
+<article class="wrap prose">
+{{ content }}
+<p class="back"><a href="/nieuws/">← Terug naar het nieuws</a></p>
+</article>
+{% endblock %}
