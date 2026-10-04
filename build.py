@@ -14,6 +14,7 @@ from pathlib import Path
 import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from markupsafe import Markup
 
 ROOT = Path(__file__).parent
 OUT = ROOT / "public"
@@ -53,7 +54,7 @@ def date_fields(d):
 def md_to_html(body):
     out = markdown.markdown(body, extensions=["tables", "md_in_html", "sane_lists", "attr_list"])
     out = re.sub(r"<table>", '<div class="table-scroll"><table>', out)
-    return out.replace("</table>", "</table></div>")
+    return Markup(out.replace("</table>", "</table></div>"))
 
 
 def first_image(body):
@@ -128,7 +129,7 @@ def build():
         if parent:
             crumbs.append({"titel": parent["titel"], "url": parent["url"]})
         page = env.get_template("page.html").render(**common, title=meta["title"], url=url,
-                                                    content=content, crumbs=crumbs, hero=meta.get("hero"))
+                                                    content=Markup(content), crumbs=crumbs, hero=meta.get("hero"))
         write(url, page)
         urls.append(url)
 
