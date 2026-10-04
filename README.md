@@ -62,12 +62,14 @@ De beheeromgeving (Sveltia CMS) slaat wijzigingen op in GitHub. Daarvoor is een 
 **Wie mag bewerken?** Iedereen met een (gratis) GitHub-account die je als *collaborator* toevoegt aan de repository
 (**Settings → Collaborators → Add people**). Die persoon logt in op `eacdesperwers.nl/admin/` met **Inloggen met GitHub**.
 
-### 4. Formulieren
+### 4. Formulieren (Web3Forms)
 
-De formulieren (proefles, lid worden, opzeggen, contact) openen nu een e-mail aan het juiste adres in het
-mailprogramma van de bezoeker. Wil je dat ze direct verstuurd worden, vul dan bij **Instellingen → Algemene gegevens →
-Formulier-adres** het adres van een formulierdienst in (bijv. Formspree of Web3Forms).
-Let op: het inschrijfformulier vraagt om een IBAN. Kies een dienst die gegevens in de EU verwerkt en sluit een verwerkersovereenkomst af.
+1. Ga naar [web3forms.com](https://web3forms.com), vul `info@eacdesperwers.nl` in en klik op **Create Access Key**. De sleutel komt per mail binnen.
+2. Doe hetzelfde voor `ledenadministratie@eacdesperwers.nl`.
+3. Zet beide sleutels in `data/site.yml` onder `web3forms` (of via **/admin → Instellingen → Algemene gegevens**).
+
+Proefles en contact gaan naar info@, lid worden en opzeggen naar ledenadministratie@. Zonder sleutel openen de formulieren een e-mail.
+Gratis: 250 berichten per maand; Web3Forms bewaart berichten 30 dagen.
 
 ## Agenda en nieuws bijwerken
 

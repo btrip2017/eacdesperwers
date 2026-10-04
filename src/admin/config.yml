@@ -96,4 +96,9 @@ collections:
           - { name: email, label: Algemeen e-mailadres, widget: string }
           - { name: instagram, label: Instagram, widget: string }
           - { name: facebook_marktplaats, label: Facebook marktplaats, widget: string }
-          - { name: formulier_endpoint, label: Formulier-adres, widget: string, required: false, hint: "Leeg = formulieren openen een e-mail" }
+          - name: web3forms
+            label: Web3Forms-sleutels
+            widget: object
+            fields:
+              - { name: info, label: "Sleutel voor info@ (proefles, contact)", widget: string, required: false }
+              - { name: ledenadministratie, label: "Sleutel voor ledenadministratie@ (lid worden, opzeggen)", widget: string, required: false }

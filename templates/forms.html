@@ -1,4 +1,4 @@
-{# Formulieren. Verstuurd naar site.formulier_endpoint; is dat leeg, dan opent de bezoeker een e-mail. #}
+{# Formulieren. Verstuurd via Web3Forms met de sleutel uit data/site.yml; zonder sleutel opent de bezoeker een e-mail. #}
 {% macro field(name, label, type='text', required=true, options=None, hint=None) -%}
 <div class="field{% if type in ('radio','checkbox') %} field-group{% endif %}">
 {% if type == 'radio' %}
@@ -24,8 +24,13 @@
 {% macro form(kind, site) -%}
 {% set to = {'proefles': 'info@eacdesperwers.nl', 'contact': 'info@eacdesperwers.nl', 'lid-worden': 'ledenadministratie@eacdesperwers.nl', 'opzeggen': 'ledenadministratie@eacdesperwers.nl'}[kind] %}
 {% set subject = {'proefles': 'Aanmelding proeftraining', 'contact': 'Vraag via de website', 'lid-worden': 'Inschrijving nieuw lid', 'opzeggen': 'Opzegging lidmaatschap'}[kind] %}
-<form class="club-form" method="post" action="{{ site.formulier_endpoint or ('mailto:' ~ to) }}" data-mailto="{{ to }}" data-subject="{{ subject }}"{% if not site.formulier_endpoint %} data-fallback="mailto"{% endif %}>
-  <input type="hidden" name="onderwerp" value="{{ subject }}">
+{% set keyname = 'ledenadministratie' if kind in ('lid-worden', 'opzeggen') else 'info' %}
+{% set key = (site.web3forms or {}).get(keyname) %}
+<form class="club-form" method="post" action="{{ 'https://api.web3forms.com/submit' if key else ('mailto:' ~ to) }}" data-mailto="{{ to }}" data-subject="{{ subject }}"{% if not key %} data-fallback="mailto"{% endif %}>
+  {% if key %}<input type="hidden" name="access_key" value="{{ key }}">
+  <input type="hidden" name="from_name" value="Website EAC De Sperwers">
+  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">{% endif %}
+  <input type="hidden" name="subject" value="{{ subject }}">
 {% if kind == 'proefles' %}
   {{ field('interesse', 'Ik heb interesse in een proeftraining voor', 'radio', options=['Jeugd (t/m 8 jaar)','Jeugd (t/m 11 jaar)','Jeugd (vanaf 12 jaar)','Baanatletiek (senioren/masters)','Baanatletiek (vb-groep)','Loopgroep']) }}
   {{ field('naam', 'Naam') }}

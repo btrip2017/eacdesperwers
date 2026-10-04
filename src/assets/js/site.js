@@ -69,8 +69,9 @@
       }
       status.textContent = 'Bezig met versturen…';
       fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-        .then(function (r) {
-          if (!r.ok) throw new Error();
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.success) throw new Error();
           form.reset();
           status.textContent = 'Bedankt! We hebben je bericht ontvangen.';
         })

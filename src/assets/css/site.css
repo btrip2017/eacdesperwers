@@ -210,3 +210,5 @@ h3{font-size:1.2rem}
 
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important}}
 .carousel .card p:not(.meta){display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
